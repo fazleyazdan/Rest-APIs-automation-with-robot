@@ -44,7 +44,8 @@ Test 1: Post request create user
 
     # Extract and log the response body. to put assertions on specific response first evaluate it to text
     ${response_text}=    Evaluate    ${response.text}    json
-    Log To Console    Response body: ${response_text}
+    Log To Console    ======================================
+    Log To Console    Get Response: ${response_text}
 
     # Assertions to validate the response fields
     Should Be Equal As Strings    ${response.status_code}    201
@@ -63,9 +64,19 @@ Test 2 : Put request update user
     ${header}=    Create Dictionary    Content-Type=application/json
 
     ${response}=    Put Request    mysession    /users/${user_id}    json=${body}    headers=${header} 
+    Log To Console    ======================================
     Log To Console    Put Response: ${response.content}
 
     Should Be Equal As Strings    ${response.status_code}    200
+
+    # assert validation on individual fields
+    ${response_txt}=    Evaluate    ${response.text}    json
+    Log To Console    ======================================
+    Log To Console    Put Response: ${response_txt}
+    
+    ${job}=    Get From Dictionary    ${response_txt}    job
+    Should Be Equal    ${job}    Lead SQA Engineer
+
 
 Test 3 : Delete user 
     ${header}=    Create Dictionary    Content-Type=application/json
