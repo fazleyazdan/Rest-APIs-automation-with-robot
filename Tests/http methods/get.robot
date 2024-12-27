@@ -34,6 +34,10 @@ Get user info
     # to send get request you have to give it session name & then the url you wanna request
     # here we have stored the response in a variable to use it further
     ${response}=    GET On Session    mysession    ${baseurl}/users/${user_id}
+
+    # you can also do the request with relative url once the session is created with base url & no need to specify it again
+    # ${response}=    GET On Session    mysession    /users/${user_id}
+
     Log To Console    ${response.status_code}
 
     # request body
