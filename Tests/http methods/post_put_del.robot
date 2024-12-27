@@ -1,4 +1,6 @@
 *** Comments ***
+this test file contains Post, Put & Delete requests
+
 when we do post request, we will need body & headers for it
 in headers we mostly pass Content-Type
 
@@ -16,9 +18,11 @@ we can write it in robot like this to create a dictionary: name=fazleyazdan   jo
 Library    SeleniumLibrary
 Library    Collections
 Library    RequestsLibrary
+Library    OperatingSystem
 
 *** Variables ***
 ${base_url}    https://reqres.in/api
+${user_id}    ${None}                        # here i have initialized it with null because i will assign it value later
 
 *** Test Cases ***
 create user via post request
@@ -46,3 +50,26 @@ create user via post request
     Should Be Equal As Strings    ${response.status_code}    201
     Should Contain    ${response_text['name']}    fazleyazdan
     Should Contain    ${response_text['job']}    SQA Engineer
+
+    # assign the global variable id returned in response so we can use it other test cases
+    ${user_id}=    Get From Dictionary    ${response_text}    id
+    Log To Console    ${user_id}
+
+
+Test 2 : Put Request Update User
+    
+    # as we have already created session we are not going to create new
+    ${body}=    Create Dictionary    name=fazleyazdan    job=Lead SQA Engineer
+    ${header}=    Create Dictionary    Content-Type=application/json
+
+    ${response}=    Put Request    mysession    /users/${user_id}    json=${body}    headers=${header} 
+    Log To Console    Put Response: ${response.content}
+
+    Should Be Equal As Strings    ${response.status_code}    200
+
+Test 3 : Delete user 
+    ${header}=    Create Dictionary    Content-Type=application/json
+
+    ${response}=    Delete Request    mysession    /users/${user_id} 
+    Should Be Equal As Strings    ${response.status_code}    204
+
