@@ -25,7 +25,7 @@ ${base_url}    https://reqres.in/api
 ${user_id}    ${None}                        # here i have initialized it with null because i will assign it value later
 
 *** Test Cases ***
-create user via post request
+Test 1: Post request create user 
     Create Session    mysession    ${base_url}
     ${body}=    Create Dictionary    name=fazleyazdan   job=SQA Engineer
     ${header}=    Create Dictionary    Content-Type=application/json
@@ -56,7 +56,7 @@ create user via post request
     Log To Console    ${user_id}
 
 
-Test 2 : Put Request Update User
+Test 2 : Put request update user
     
     # as we have already created session we are not going to create new
     ${body}=    Create Dictionary    name=fazleyazdan    job=Lead SQA Engineer
