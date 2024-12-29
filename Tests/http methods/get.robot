@@ -14,7 +14,7 @@ this is the response body
     }
 }
 
-we have to use collection library as well to work with response elements. because all elements is inside the dictionary
+we have to use collection library as well to work with response elements. because all elements is inside the dictionary.
 
 
 *** Settings ***
